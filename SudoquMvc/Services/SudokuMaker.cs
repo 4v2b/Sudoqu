@@ -1,4 +1,6 @@
-﻿namespace SudoquMvc.Services
+﻿using System.Linq;
+
+namespace SudoquMvc.Services
 {
     public class SudokuMaker : ISudokuMaker
     {
@@ -9,6 +11,7 @@
         private readonly List<string> squares;
         private readonly Dictionary<string, List<List<string>>> units;
         private readonly Dictionary<string, List<string>> peers;
+        private readonly List<List<string>> unitList;
 
         private readonly ILogger<SudokuMaker> _logger;
 
@@ -33,7 +36,7 @@
             _logger = logger;
             var cols = digits;
 
-            List<List<string>> unitList = [
+            unitList = [
                 ..cols.Select(c => Cross([.. rows], [c])).ToList(),
                 ..rows.Select(r => Cross([r], [.. cols])).ToList(),
                 ..sectionCols.SelectMany(c => sectionRows.Select(r => Cross([..r], [.. c]))).ToList()];
@@ -59,8 +62,6 @@
             var rand = new Random();
             var values = squares.ToDictionary(s => s, v => digits);
 
-            
-
             var sh = Shuffle(new List<string>(squares));
             foreach (var s in sh)
             {
@@ -72,16 +73,19 @@
 
                 if (ds.Count > n && ds.Distinct().Count() >= 8)
                 {
-                    var res = Search(values);
+                    //var res = Search(values);
 
-                    if (res is null)
-                    {
-                        return string.Concat(squares.Select(s => values[s].Length == 1 ? values[s] : "."));
-                    }
-                    else
-                    {
-                        return string.Concat(squares.Select(s => res[s].Length == 1 ? res[s] : "."));
-                    }
+                    //if (res is null)
+                    //{
+                    //var fads = unitList[18..^0].SelectMany(l => l).ToList();
+                    //return string.Concat(fads.Select(s => s));
+
+                    return string.Concat(squares.Select(s => values[s].Length == 1 ? values[s] : "."));
+                    //}
+                    //else
+                    //{
+                    //    return string.Concat(squares.Select(s => res[s].Length == 1 ? res[s] : "."));
+                    //}
                 }
             }
             return Make();

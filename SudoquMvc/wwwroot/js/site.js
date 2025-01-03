@@ -41,6 +41,16 @@
                     const cell = document.createElement('td');
                     cell.className = 'cell';
 
+                    // Calculate correct index in the data array
+                    const sectionRow = i;         // Section's row index
+                    const sectionCol = j;         // Section's column index
+                    const cellRow = k;            // Row within the section
+                    const cellCol = l;            // Column within the section
+
+                    const globalRow = sectionRow * 3 + cellRow; // Global row in Sudoku grid
+                    const globalCol = sectionCol * 3 + cellCol; // Global column in Sudoku grid
+                    const index = globalRow * 9 + globalCol;    // 1D index in data array
+
                     if (data[index] != '.') {
                         cell.classList.add('static');
                         cell.innerHTML = data[index];
@@ -48,7 +58,6 @@
                         cell.innerHTML = '';
                     }
                     row.appendChild(cell);
-                    index++;
                 }
                 boxTable.appendChild(row);
             }
@@ -61,7 +70,7 @@
     let current = 0;
 
     Array.from(document.getElementsByClassName('cell')).forEach(
-        function (e) {
+        function (e, i) {
             e.addEventListener('click', function (e) {
 
                 if (e.target.classList.contains('static')) {

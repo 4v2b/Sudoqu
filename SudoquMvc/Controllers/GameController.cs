@@ -7,7 +7,7 @@ namespace SudoquMvc.Controllers
     {
         public IActionResult Index([FromServices] ISudokuMaker sudokuMaker)
         {
-            string sudoku = sudokuMaker.Make();
+            string sudoku = sudokuMaker.Make(17);
 
             ViewData["Board"] = sudoku;
 

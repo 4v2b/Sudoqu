@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<ISudokuMaker, SudokuMaker>();
+builder.Services.AddScoped<ISudokuMaker, SudokuMaker>();
 
 var app = builder.Build();
 
