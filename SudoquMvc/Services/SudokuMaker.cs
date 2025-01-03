@@ -59,16 +59,18 @@
             var rand = new Random();
             var values = squares.ToDictionary(s => s, v => digits);
 
-            var sh = Shuffle(squares);
+            
+
+            var sh = Shuffle(new List<string>(squares));
             foreach (var s in sh)
             {
                 if (!Assign(values, s, values[s][rand.Next(0, values[s].Length - 1)]))
                 {
                     break;
                 }
-                var ds = squares.Where(s => values[s].Length == 1).Select(s => values[s]);
+                var ds = squares.Where(s => values[s].Length == 1).Select(s => values[s]).ToList();
 
-                if (ds.Count() > n && ds.Distinct().Count() >= 8)
+                if (ds.Count > n && ds.Distinct().Count() >= 8)
                 {
                     var res = Search(values);
 
@@ -80,7 +82,6 @@
                     {
                         return string.Concat(squares.Select(s => res[s].Length == 1 ? res[s] : "."));
                     }
-
                 }
             }
             return Make();
