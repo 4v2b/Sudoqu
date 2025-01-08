@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text;
 
 namespace SudoquMvc.Services
 {
@@ -57,7 +58,7 @@ namespace SudoquMvc.Services
                 );
         }
 
-        public string Make(int n = 17)
+        public (string?, string) Make(int n = 17)
         {
             var rand = new Random();
             var values = squares.ToDictionary(s => s, v => digits);
@@ -73,19 +74,9 @@ namespace SudoquMvc.Services
 
                 if (ds.Count > n && ds.Distinct().Count() >= 8)
                 {
-                    //var res = Search(values);
+                    var res = Search(values);
 
-                    //if (res is null)
-                    //{
-                    //var fads = unitList[18..^0].SelectMany(l => l).ToList();
-                    //return string.Concat(fads.Select(s => s));
-
-                    return string.Concat(squares.Select(s => values[s].Length == 1 ? values[s] : "."));
-                    //}
-                    //else
-                    //{
-                    //    return string.Concat(squares.Select(s => res[s].Length == 1 ? res[s] : "."));
-                    //}
+                    return (res is null ? null : string.Concat(squares.Select(s => s + values[s])), string.Concat(squares.Select(s => s + (values[s].Length == 1 ? values[s][0].ToString() : "0"))));
                 }
             }
             return Make();
@@ -120,7 +111,7 @@ namespace SudoquMvc.Services
             foreach (var u in units[s])
             {
                 var dPlaces = u.Where(e => values[e].IndexOf(d) > -1).ToList();
-                if (!dPlaces.Any())
+                if (dPlaces.Count == 0)
                 {
                     return false;
                 }
@@ -133,10 +124,9 @@ namespace SudoquMvc.Services
             return true;
         }
 
-
         private Dictionary<string, string>? Search(Dictionary<string, string>? values)
         {
-            if (values is null)
+            if (values is null || values.Count() == 0)
             {
                 return null;
             }
@@ -153,6 +143,47 @@ namespace SudoquMvc.Services
             return values[s]
                 .Select(v => Search(Assign(copy, s, v) ? copy : null))
                 .FirstOrDefault(s => s is not null);
+        }
+
+        public string Validate(string rawValues)
+        {
+            var values = Parse(rawValues);
+            return string.Concat(values.Select(v => peers[v.Key].All(i => values[i] != v.Value) ? $"{v.Key}1" : $"{v.Key}0"));
+        }
+
+        public string? Solve(string rawValues)
+        {
+            var values = Parse(rawValues);
+
+            var res = Search(values);
+
+            if(res is null)
+            {
+                return null;
+            }
+
+            return string.Concat(squares.Select(s => res[s].Length == 1 ? s + res[s] : s + "0"));
+        }
+
+        private Dictionary<string, string> Parse(string rawValues)
+        {
+            var values = new Dictionary<string, string>();
+            int i = 0;
+
+            while (i < rawValues.Length)
+            {
+                int nextCellId = rawValues.IndexOfAny(rows.ToCharArray(), i + 2);
+                if(nextCellId == -1)
+                {
+                    nextCellId = rawValues.Length;
+                }
+
+                values.Add(rawValues[i..(i + 2)], rawValues[(i + 2) .. nextCellId]);
+
+                i = nextCellId;
+            }
+
+            return values;
         }
     }
 }

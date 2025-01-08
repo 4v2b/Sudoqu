@@ -2,6 +2,10 @@
 {
     public interface ISudokuMaker
     {
-        string Make(int n = 17);
+        (string?, string) Make(int n = 17);
+
+        string Validate(string rawValues);
+
+        string? Solve(string rawValues);
     }
 }

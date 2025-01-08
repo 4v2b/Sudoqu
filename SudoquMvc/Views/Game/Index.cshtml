@@ -3,6 +3,8 @@
 }
 
 <div id="data-container" data-message="@ViewData["Board"]"></div>
+<div id="data-container1" data-message="@ViewData["BoardFull"]"></div>
+
 
 <div id="color-toggle">
     <div>🌞</div><div id="slide-area">
@@ -10,9 +12,28 @@
         <label for="themeToggle" class="slider"></label>
     </div><div>🌚</div>
 </div>
+
 <div id="field">
     <table id="table">
     </table>
 </div>
 <div id="panel">
+</div>
+<div id="toolbar">
+
+    <a id="new" asp-controller="Game"
+         asp-action="Index">
+        New puzzle
+    </a>
+
+    <div id="verify">
+        Verify
+    </div>
+
+    <div id="solve">
+        Solve
+    </div>
+</div>
+<div id="dialog">
+    Oops. This puzzle doesn't have any solution.
 </div>

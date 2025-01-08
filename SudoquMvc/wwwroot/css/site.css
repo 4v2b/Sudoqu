@@ -2,6 +2,8 @@
     --primary: #ffffff;
     --secondary: #000000;
     --alternative: #ddd;
+    --error: #DE3163;
+    --success: #99F762;
 }
 
 body {
@@ -26,6 +28,31 @@ body {
     right: 1em;
 }
 
+#toolbar {
+/*    position: absolute;*/
+    display: flex;
+    flex-direction: row;
+}
+
+#solve, #verify, #new {
+    text-decoration: none;
+    position: relative;
+    font-size: 0.6em;
+    background-color: var(--secondary);
+    color: var(--primary);
+    border-radius: 2em;
+    transition: all 0.2s ease-in-out;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    padding: 0.5em;
+}
+
+    #new:hover, #verify:hover, #solve:hover {
+        cursor: pointer;
+        background-color: var(--alternative);
+        color: var(--secondary);
+    }
+
 #field {
     display: flex;
     align-items: center;
@@ -34,14 +61,29 @@ body {
 }
 
 #panel {
-    margin: 2em;
+    margin: 1em;
     display: flex;
     align-items: center;
     justify-items: center;
     justify-content: center;
 }
 
+#dialog {
+    display: none;
+    opacity: 0;
+    background-color: var(--error);
+    font-size: 0.5em;
+    font-weight: 600;
+    border-radius: 1.5em;
+    position: absolute;
+    top: 1em;
+    padding: 1em;
+    margin: auto;
+}
+
 .btn {
+    font-size: 0.8em;
+    font-weight: 600;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,12 +91,14 @@ body {
     height: 1.5em;
     text-align: center;
     margin: 0.2em;
-    border: var(--secondary) solid 0.08em;
+    border: var(--secondary) solid 0.1em;
     border-radius: 15em;
     transition: background-color 0.5s, color 0.5s;
 }
 
 .btn-active {
+    font-size: 0.8em;
+    font-weight: 600;
     transition: background-color 0.5s, color 0.5s;
     display: flex;
     justify-content: center;
@@ -65,7 +109,7 @@ body {
     margin: 0.2em;
     background-color: var(--secondary);
     color: var(--primary);
-    border: var(--primary) solid 0.08em;
+    border: var(--primary) solid 0.1em;
     border-radius: 15em;
 }
 
@@ -85,23 +129,42 @@ table {
 }
 
 .static {
-    font-weight: 600;
+    font-weight: 800;
 }
 
-.cell {
+.cell-container {
     cursor: default;
     border: 1px solid var(--alternative);
     font-size: 0.7em;
     text-align: center;
-    height: 1.5em;
-    width: 1.5em;
-    padding: 0.1em;
+    height: 1.7em;
+    width: 1.7em;
+    /* padding: 0.1em; */
+}
+
+.cell.focus {
+    color: var(--primary);
+    background-color: var(--secondary);
+    border-radius: 2em;
+}
+
+.cell {
+    border-radius:2em;
+    transition: all 0.2s ease-in-out;
+    margin: 0.05em;
+    padding: 0.17em;
 }
 
 .hover {
-    transition: background-color 0.2s ease-in-out;
     background-color: var(--alternative);
     border-radius: 2em;
+}
+
+
+.error {
+    background-color: var(--error);
+    border-radius: 2em;
+    color: var(--secondary);
 }
 
 .filled {
