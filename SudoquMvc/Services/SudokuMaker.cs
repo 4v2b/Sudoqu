@@ -16,20 +16,6 @@ namespace SudoquMvc.Services
 
         private readonly ILogger<SudokuMaker> _logger;
 
-        private static List<T> Shuffle<T>(List<T> set)
-        {
-            var r = new Random();
-
-            for (int i = set.Count - 1; i > 0; i--)
-            {
-                int j = r.Next(0, i + 1);
-
-                (set[j], set[i]) = (set[i], set[j]);
-            }
-
-            return set;
-        }
-
         private static List<string> Cross(char[] A, char[] B) => A.SelectMany(a => B.Select(b => $"{a}{b}")).ToList();
 
         public SudokuMaker(ILogger<SudokuMaker> logger)
@@ -56,6 +42,20 @@ namespace SudoquMvc.Services
                     .Where(peer => peer != s)
                     .Distinct().ToList()
                 );
+        }
+
+        private static List<T> Shuffle<T>(List<T> set)
+        {
+            var rand = new Random();
+
+            for (int i = set.Count - 1; i > 0; i--)
+            {
+                int j = rand.Next(0, i + 1);
+
+                (set[j], set[i]) = (set[i], set[j]);
+            }
+
+            return set;
         }
 
         public (string?, string) Make(int n = 17)
