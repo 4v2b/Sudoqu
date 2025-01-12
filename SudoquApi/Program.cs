@@ -12,6 +12,10 @@ builder.Services.AddSingleton<IShuffleService, FisherYatesShuffle>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var origins = builder.Configuration.GetValue<string[]>("AllowedOrigins")!;
+
+builder.Services.AddCors(actions => actions.AddPolicy("LocalDevelopement", policy => policy.WithOrigins(origins)));
+
 builder.Services.AddControllers();
 
 Log.Logger = new LoggerConfiguration()
@@ -35,6 +39,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("LocalDevelopement");
 
 app.MapControllers();
 
