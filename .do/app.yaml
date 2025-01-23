@@ -1,0 +1,6 @@
+name: your-project-name
+services:
+- name: backend
+  dockerfile_path: /SudoquApi/Dockerfile
+- name: frontend
+  dockerfile_path: /sudoqureact/Dockerfile
