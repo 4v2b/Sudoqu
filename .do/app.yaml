@@ -1,6 +1,0 @@
-name: first-project
-services:
-- name: backend
-  dockerfile_path: ./SudoquApi/Dockerfile
-- name: frontend
-  dockerfile_path: ./sudoqureact/Dockerfile

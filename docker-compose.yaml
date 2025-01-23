@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  react-app:
+    build: ./sudoqureact
+    ports:
+      - "3000:80"
+    restart: always
+
+  web-api:
+    build: ./SudoquApi
+    ports:
+      - "5000:5000"
+    restart: always
