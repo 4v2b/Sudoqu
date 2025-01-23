@@ -1,6 +1,5 @@
 using Serilog;
 using Serilog.Events;
-using SudoquApi;
 using SudoquApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +11,16 @@ builder.Services.AddSingleton<IShuffleService, FisherYatesShuffle>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var origins = builder.Configuration.GetValue<string[]>("AllowedOrigins")!;
+var origins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>()!;
 
-builder.Services.AddCors(actions => actions.AddPolicy("LocalDevelopement", policy => policy.WithOrigins(origins)));
+builder.Services.AddCors(options => options.AddPolicy(
+    "LocalDevelopement", 
+    policy => policy.WithOrigins(origins)
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+    )
+);
 
 builder.Services.AddControllers();
 
@@ -41,6 +47,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("LocalDevelopement");
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

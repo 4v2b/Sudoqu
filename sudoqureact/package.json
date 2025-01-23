@@ -8,9 +8,10 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "clean": "rm -rf build && npm cache clean --force" 
+    "clean": "rm -rf build && npm cache clean --force"
   },
   "dependencies": {
+    "motion": "^11.17.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

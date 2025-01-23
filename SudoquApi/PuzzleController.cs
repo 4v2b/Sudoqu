@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using SudoquApi.Models;
+using SudoquApi.Services;
 
 namespace SudoquApi
 {
@@ -11,9 +13,9 @@ namespace SudoquApi
 
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DispayPuzzle))]
-        public IActionResult Make([FromQuery] int? seed, [FromServices] SudokuService sudokuService)
+        public IActionResult Make([FromQuery] int? seed, [FromQuery] int? number, [FromServices] SudokuService sudokuService)
         {
-            return Ok(sudokuService.Make(seed.GetValueOrDefault(Random.Shared.Next())));
+            return Ok(sudokuService.Make(seed.GetValueOrDefault(Random.Shared.Next()), number.GetValueOrDefault(Random.Shared.Next(17, 32))));
         }
 
         [HttpPost]

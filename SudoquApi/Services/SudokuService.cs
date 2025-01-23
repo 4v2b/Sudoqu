@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SudoquApi.Models;
-using SudoquApi.Services;
 
-namespace SudoquApi
+namespace SudoquApi.Services
 {
     public class SudokuService(ILogger<SudokuService> logger, IShuffleService shuffleService)
     {
@@ -42,18 +41,20 @@ namespace SudoquApi
                 }
             }
             int newSeed = (seed + 1) % int.MaxValue;
-            logger.LogInformation("Trying to solve puzzle with new seed {Seed}", seed);
+            logger.LogInformation("Trying to solve puzzle with new seed {Seed}", newSeed);
             return Make(newSeed);
         }
 
         public IEnumerable<string> Validate(Puzzle puzzle)
         {
+            logger.LogInformation("Validating puzzle... {Puzzle}", string.Concat(puzzle.Squares.TakeLast(10).Select(pair => pair.Value.ToString())));
+
             var mismatched = puzzle.Squares
-                .Where((s) => peers[s.Key].Any(i => puzzle.Squares[s.Key] != s.Value))
+                .Where((s) => peers[s.Key].Any(i => puzzle.Squares[i] == s.Value && s.Value > 0))
                 .Select(e => e.Key)
                 .ToList();
 
-            logger.LogInformation("Validating puzzle... Mismatched squares: {Count}", mismatched.Count);
+            logger.LogInformation("Mismatched squares: {Count}", mismatched.Count);
 
             return mismatched;
         }
