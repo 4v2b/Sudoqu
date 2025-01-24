@@ -1,5 +1,5 @@
 export async function make(seed = null, number = 17) {
-    const baseUrl = import.meta.env.VITE_API_URL;
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     const url = `${baseUrl}/api/puzzle/make${seed ? `?seed=${seed}` : ''}${seed ? "&" : "?"}number=${number}`;
 
