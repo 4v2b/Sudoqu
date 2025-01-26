@@ -24,8 +24,6 @@ builder.Services.AddCors(options => options.AddPolicy(
 
 builder.Services.AddControllers();
 
-builder.WebHost.UseUrls("http://0.0.0.0:5000");
-
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -55,6 +53,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.Run();

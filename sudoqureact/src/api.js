@@ -1,8 +1,7 @@
 export async function make(seed = null, number = 17) {
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const baseUrl = import.meta.env.VITE_API_URL;
 
     const url = `${baseUrl}/api/puzzle/make${seed ? `?seed=${seed}` : ''}${seed ? "&" : "?"}number=${number}`;
-
 
     try {
         const response = await fetch(url, {
@@ -12,8 +11,6 @@ export async function make(seed = null, number = 17) {
             }
         });
         const data = await response.json();
-        // console.log('Making request to: ', url);
-        // console.log('Response: ', data);
         return data;
     }
     catch (error) {
@@ -24,8 +21,6 @@ export async function make(seed = null, number = 17) {
 export async function validate(squares, seed) {
     const baseUrl = import.meta.env.VITE_API_URL;
     const url = `${baseUrl}/api/puzzle/validate`;
-    // console.log('Validating request to: ', url);
-    // console.log('Sending: ', squares);
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -40,8 +35,6 @@ export async function validate(squares, seed) {
         }
 
         const data = await response.json();
-        console.log('Response: ', data);
-
         return data;
     } catch (error) {
         console.error('Error:', error);

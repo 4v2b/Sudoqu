@@ -53,7 +53,7 @@ export default function App() {
         }}>
           <h2 style={{ marginBottom: '1rem' }}>Start New Game</h2>
           <input
-            type="text"
+            type="number"
             placeholder="Enter seed (optional)"
             value={seedInput}
             onChange={(e) => setSeedInput(e.target.value)}
@@ -69,7 +69,7 @@ export default function App() {
           />
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button
-              onClick={() => startGame(seedInput || null)}
+              onClick={() => startGame(Number(seedInput) > 2_000_000_000 ?  null : seedInput)}
               style={{
                 padding: '0.5rem 1rem',
                 backgroundColor: '#007bff',
